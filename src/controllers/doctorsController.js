@@ -47,6 +47,19 @@ class DoctorsController {
             res.status(400).json({ message: error });
         }
     }
+
+    static async deleteDoctor(req, res, next) {
+        try {
+            const id = req.params.id;
+            if (await doctors.findByIdAndDelete(id) !== null) {
+                res.status(200).json({ message: 'Doctor deleted successfully!' });
+            } else {
+                res.status(404).json({ message: 'Doctor not found!' });
+            }
+        } catch (error) {
+            res.status(400).json({ message: error });
+        }
+    }
 }
 
 export default DoctorsController;

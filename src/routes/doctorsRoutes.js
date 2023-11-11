@@ -7,5 +7,6 @@ routes.get("/doctors", DoctorsController.getDoctors);
 routes.get("/doctors/:id", DoctorsController.getDoctorById);
 routes.post("/doctors", DoctorsController.saveDoctor);
 routes.put("/doctors/:id", DoctorsController.updateDoctor);
+routes.delete("/doctors/:id", DoctorsController.deleteDoctor);
 
 export default routes;
