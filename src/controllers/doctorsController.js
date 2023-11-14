@@ -25,6 +25,20 @@ class DoctorsController {
         }
     }
 
+    static async getDoctorsByFilter(req, res, next) {
+        try {
+            const search = processSearch(req.query);
+            if (search !== null) {
+                const doctorsSearch = await doctors.find(search);
+                res.status(200).json(doctorsSearch);
+            } else {
+                res.status(200).json({});
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static async saveDoctor(req, res, next) {
         try {
             const doctorData = req.body;
@@ -61,6 +75,18 @@ class DoctorsController {
             next(error);
         }
     }
+}
+
+function processSearch(parameters) {
+    const { name, age, minPages, maxPages } = parameters;
+    const search = {};
+    if (name) search.name = { $regex: name, $options: "i" };
+    if (age) search.age = { $regex: age, $options: "i" };
+    if (minPages || maxPages) search.pages = {};
+    if (minPages) search.pages.$gte = minPages;
+    if (maxPages) search.pages.$lte = maxPages;
+
+    return search;
 }
 
 export default DoctorsController;
