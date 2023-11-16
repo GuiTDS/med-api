@@ -2,14 +2,14 @@
 
 Voll.med is a fictional medical clinic that needs an application to manage appointments. The application must have functionalities that allow the registration of doctors and patients, as well as scheduling and canceling appointments.
 
-The main focus of the project is on the backend, so there is no frontend for now, but there are images to simulate a front end available.
+The main focus of the project is on the backend, so there is no frontend for now.
 
 ---
 
 ## ⚙️ Functionalities
 
 - [x] CRUD of doctors;
-- [x] CRUD of patients;
+- [ ] CRUD of patients;
 - [ ] Appointment scheduling (coming soon);
 - [ ] Cancellation of appointments (coming soon);
 
