@@ -10,5 +10,6 @@ routes.post("/doctors", DoctorsController.saveDoctor);
 routes.post("/doctors/:id/appointment", DoctorsController.registerNewAppointment);
 routes.put("/doctors/:id", DoctorsController.updateDoctor);
 routes.delete("/doctors/:id", DoctorsController.deleteDoctor);
+routes.delete("/doctors/:id/appointments/:appointmentId", DoctorsController.deleteAppointment);
 
 export default routes;

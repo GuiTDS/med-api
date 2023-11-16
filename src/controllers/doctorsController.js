@@ -99,6 +99,34 @@ class DoctorsController {
             next(error);
         }
     }
+
+    static async deleteAppointment(req, res, next) {
+        try {
+            const doctorId = req.params.id;
+            const appointmentId = req.params.appointmentId;
+            const doctor = await doctors.findById(doctorId);
+            if (!doctor) {
+                next(new NotFoundError('Doctor not found!'));
+            } else {
+                const checkAppointment = doctor.appointments.find((appointment) => appointment._id.equals(appointmentId));
+                if (!checkAppointment) {
+                    next(new NotFoundError('Appointment not found!'));
+                } else {
+                    await doctors.findByIdAndUpdate(
+                        doctorId,
+                        {
+                            $pull: { appointments: { _id: appointmentId } },
+                        },
+                        { new: true }
+                    );
+                    res.status(200).json({ message: 'Appointment removed successfully' });
+                }
+            }
+
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 function processSearch(parameters) {
