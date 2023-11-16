@@ -1,5 +1,6 @@
 import NotFoundError from "../errors/NotFoundError.js";
 import { doctors } from "../models/index.js";
+import { appointment } from "../models/index.js";
 
 class DoctorsController {
     static async getDoctors(req, res, next) {
@@ -68,6 +69,29 @@ class DoctorsController {
             const id = req.params.id;
             if (await doctors.findByIdAndDelete(id) !== null) {
                 res.status(200).json({ message: 'Doctor deleted successfully!' });
+            } else {
+                next(new NotFoundError('Doctor not found!'));
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async registerNewAppointment(req, res, next) {
+        try {
+            const doctorId = req.params.id;
+            const newAppointment = await appointment.create({ ...req.body, doctorId });
+            const result = await doctors.findByIdAndUpdate(
+                doctorId,
+                {
+                    $push: {
+                        appointments: newAppointment,
+                    },
+                },
+                { new: true }
+            );
+            if (result) {
+                res.status(201).json({ message: 'New appointment created', newAppointment });
             } else {
                 next(new NotFoundError('Doctor not found!'));
             }
